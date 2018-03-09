@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
-"""
-    测试
-"""
+'测试'
+
 # 实现trim()去掉字符串左右空格
 def trim(s):
     if s[0]!=' ' and s[-1]!=' ':
@@ -34,7 +33,6 @@ max,min=min,max
 a,b=b,a+b
 这里等号右边实际上是一个tuple，因此等号右边的a在定义的时候就已经确定了，并不会因为将b赋值给了左边的a而改变
 '''
-
 
 t = ("Bob", 75)
 print(t[0])

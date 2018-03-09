@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
+'排序'
 '''
 小结
     sorted()也是一个高阶函数。用sorted()排序的关键在于实现一个映射函数。
