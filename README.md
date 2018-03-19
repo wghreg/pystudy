@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 # pystudy
 
 * base_type   基本数据类型
