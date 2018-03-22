@@ -29,8 +29,7 @@
 
 import queue 与 from multiprocess import Queue 的区别
 ----
-使用import 模块名  是导入该模块，该模块下所有的方法都可以使用  使用规范： 模块名.方法名
-
+使用import 模块名  是导入该模块，该模块下所有的方法都可以使用  使用规范： 模块名.方法名  
 from 模块名 import 函数名    是导入该模块下的特定的函数名，使用时直接使用函数名。
 <pre>
 eg:
