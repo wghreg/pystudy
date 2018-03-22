@@ -10,7 +10,7 @@ Python的multiprocessing模块不但支持多进程，其中managers子模块还
 原有的Queue可以继续使用，但是，通过managers模块把Queue通过网络暴露出去，就可以让其他机器的进程访问Queue了。
 
 我们先看服务进程，服务进程负责启动Queue，把Queue注册到网络上，然后往Queue里面写入任务：
-'''python
+
 # task_master.py
 
 import random, time, queue
@@ -48,12 +48,12 @@ for i in range(10):
 # 关闭:
 manager.shutdown()
 print('master exit.')
-'''
+
 
 请注意，当我们在一台机器上写多进程程序时，创建的Queue可以直接拿来用，但是，在分布式多进程环境下，添加任务到Queue不可以直接对原始的task_queue进行操作，那样就绕过了QueueManager的封装，必须通过manager.get_task_queue()获得的Queue接口添加。
 
 然后，在另一台机器上启动任务进程（本机上启动也可以）：
-'''python
+
 # task_worker.py
 
 import time, sys, queue
@@ -89,11 +89,11 @@ for i in range(10):
         print('task queue is empty.')
 # 处理结束:
 print('worker exit.')
-'''
+
 任务进程要通过网络连接到服务进程，所以要指定服务进程的IP。
 
 现在，可以试试分布式进程的工作效果了。先启动task_master.py服务进程：
-'''python
+
 $ python3 task_master.py 
 Put task 3411...
 Put task 1605...
@@ -106,9 +106,9 @@ Put task 4219...
 Put task 339...
 Put task 7866...
 Try get results...
-'''
+
 task_master.py进程发送完任务后，开始等待result队列的结果。现在启动task_worker.py进程：
-\python
+
 $ python3 task_worker.py
 Connect to server 127.0.0.1...
 run task 3411 * 3411...
