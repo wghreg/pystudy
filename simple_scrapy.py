@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 # -*- coding:utf-8 -*-
-import urllib2, re, cookielib  
+import urllib2, re, cookielib   # python3 中改为urllib3，http.cookiejar
   
 def httpCrawler(url):  
     ''''' 
