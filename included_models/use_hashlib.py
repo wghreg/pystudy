@@ -48,11 +48,11 @@ SHA1的结果是160 bit字节，通常用一个40位的16进制字符串表示�
 摘要算法应用
 摘要算法能应用到什么地方？举个常用例子：
     任何允许用户登录的网站都会存储用户登录的用户名和口令。如何存储用户名和口令呢？方法是存到数据库表中：
-name	password
----------------------
-michael	123456
-bob	    abc999
-alice	alice2008
+name	    password
+-----------------------------------------------
+michael	    123456
+bob	        abc999
+alice	    alice2008
 
 如果以明文保存用户口令，如果数据库泄露，所有用户的口令就落入黑客的手里。
 此外，网站运维人员是可以访问数据库的，也就是能获取到所有用户的口令。
@@ -68,7 +68,6 @@ alice	    99b1c2188db85afee403b1536010c2c9
 
 练习
 根据用户输入的口令，计算出存储在数据库中的MD5口令：
-
 def calc_md5(password):
     pass
 存储MD5的好处是即使运维人员能访问数据库，也无法获知用户的明文口令。
@@ -83,13 +82,79 @@ db = {
 }
 
 def login(user, password):
-    pass
+    md5 = hashlib.md5()
+    tmp = password
+    md5.update(password.encode("utf-8"))
+    password = md5.hexdigest()
+    for name in db.keys():
+        if user == name:
+            print("%s's password '%s' is true."%(user, tmp))
+            return password == db.get(name)
 
 # 测试:
-assert login('michael', '123456')
-assert login('bob', 'abc999')
-assert login('alice', 'alice2008')
-assert not login('michael', '1234567')
-assert not login('bob', '123456')
-assert not login('alice', 'Alice2008')
+assert login('michael', '123456')       # True
+assert login('bob', 'abc999')           # True
+assert login('alice', 'alice2008')      # True
+
+assert not login('michael', '1234567')  # True
+assert not login('bob', '123456')       # True
+assert not login('alice', 'Alice2008')  # True
 print('ok')
+
+'''md5转换'''
+def get_md5(str):
+    md5 = hashlib.md5()
+    md5.update(str.encode("utf-8"))
+    return md5.hexdigest()
+
+'''密码加盐'''
+def calc_md5(password):
+    return get_md5(password + "the-Salt")
+
+print("\nmd5加盐转换：", calc_md5('123456'))
+
+'''
+如果假定用户无法修改登录名，就可以通过把登录名作为Salt的一部分来计算MD5，从而实现相同口令的用户也存储不同的MD5。
+
+练习
+    根据用户输入的登录名和口令模拟用户注册，计算更安全的MD5：
+db = {}
+def register(username, password):
+    db[username] = get_md5_salt(password + username + "the-Salt")
+'''
+import hashlib, random
+print("\n密码加盐后获取对象摘要：")
+def get_md5_salt(str):
+    return hashlib.md5(str.encode("utf-8")).hexdigest()
+
+class User(object):
+    def __init__(self, username, password):
+        self.username = username
+        self.salt = "".join([chr(random.randint(48, 122)) for i in range(20)])
+        print("输出盐：", self.salt)
+        self.password = get_md5_salt(password + self.salt)
+# db在函数login外部，为什么可以直接调用？ 局部函数不改变全局变量的情况下，可以不用global，直接调用
+db = {
+    "张三": User("张三", "123456"),
+    "李四": User("李四", "abc999"),
+    "赵六": User("赵六", "alice2008")
+}
+
+def login2(username, password):
+    user = db[username]
+    print("原password=", password, "; md5加随机盐后的password=", user.password)
+    return user.password == get_md5_salt(password + user.salt)
+
+# 测试：
+assert login2("张三", "123456")
+assert login2("李四", "abc999")
+assert login2("赵六", "alice2008")
+print("OK!")
+
+'''
+小结
+
+摘要算法在很多地方都有广泛的应用。
+要注意摘要算法不是加密算法，不能用于加密（因为无法通过摘要反推明文），只能用于防篡改，
+但是它的单向计算特性决定了可以在不存储明文口令的情况下验证用户口令。
+'''
