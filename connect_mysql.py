@@ -1,6 +1,11 @@
 #! /usr/bin/env python3
 # *-* coding:utf-8 *-*
 
+# pip install mysql-connector-python
+# 或
+# pip install mysql-connector
+
+
 import mysql.connector
 
 # 获取连接
@@ -19,7 +24,6 @@ cursor.execute('select * from user')
 values = cursor.fetchall()
 print(values)
 
-cursor.close()
-
 # 关闭连接
+cursor.close()
 conn.close()
