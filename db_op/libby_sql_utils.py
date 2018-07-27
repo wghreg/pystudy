@@ -40,7 +40,7 @@ def call_reConn():
     reConn()
 
 
- """
+"""
     dbutils 数据连接池
         只能执行数据查询sql语句,否则会抛错
     @parm: 要执行的sql语句
@@ -56,7 +56,7 @@ def p_query(sql):
     try:
         conn = getConn()
         cur = conn.cursor()
-        cur.execute(test_sql)
+        cur.execute(sql)
         res = cur.fetchall()
     except Exception as e:
         call_reConn()
