@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# *-* coding:utf-8 *-*
+# -*- coding:utf-8 -*-
 
 # python3 已经不支持mysql-python, 使用pymysql代替( https://github.com/PyMySQL/PyMySQL )
 # pip install PyMySQL
@@ -32,7 +32,7 @@ class DbManager():
     def __init__(self, *args, **kwargs):
         try:
             self._pool = PooledDB(mysql, **args, **conn_args)
-        except Exception, e:
+        except Exception as e:
             print("The parameters for DBUtils is :", conn_args)
     
     def _getConn(self):

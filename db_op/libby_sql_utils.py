@@ -1,11 +1,11 @@
 #! /usr/bin/env python3
-# *-* coding:utf-8 *-*
+# -*- coding:utf-8 -*-
 
-''' 支持增删改查功能的连接池模块'''
 from libby_db_pools import getConn, reConn
 import traceback
 
- """
+''' 支持增删改查功能的连接池模块'''
+"""
     测试连接池连接是否正常
     return：
     res：True：正常，False：不正常
